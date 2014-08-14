@@ -1,0 +1,44 @@
+.\" -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH PASTEURIZE 1 "August 14, 2014"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7) and groff_man(7)
+.\" .SH        section heading
+.\" .SS        secondary section heading
+.\"
+.\"
+.\" To preview this page as plain text: nroff -man obspy-runtests
+.\"
+.SH NAME
+pasteurize \- attempts to turn Py3 code into relatively clean Py3 code that is
+also compatible with Py2 when using the future package.
+.SH SYNOPSIS
+.B pasteurize
+.RI [ options ] " mypython2script.py" ...
+.SH DESCRIPTION
+pasteurize attempts to convert existing Python 3 code into
+source-compatible Python 2 and 3 code.
+
+For details please see the documentation inside the source code
+(located under /usr/lib/python*/dist-packages/libpasteurize)
+.SH OPTIONS
+For details please see the documentation inside the source code
+(located under /usr/lib/python*/dist-packages/libpasteurize)
+.SH AUTHOR
+pasteurize was written by Ed Schofield <ed@pythoncharmers.com>
+(additional credits see: http://python-future.org/credits.html).
+This manual page was written by
+Tobias Megies <megies@geophysik.uni-muenchen.de>
+for the Debian project (but may be used by others).

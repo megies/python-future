@@ -1,0 +1,7 @@
+#!/usr/bin/make -f
+
+export DH_ALWAYS_EXCLUDE=CVS:.git:.gitignore:__pycache__
+export DEB_BUILD_OPTIONS=nocheck
+
+%:
+	dh $@ --buildsystem=pybuild --with=python2,python3

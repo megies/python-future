@@ -38,3 +38,18 @@ nosetests.xml
 .project
 .pydevproject
 
+# deb packaging stuff
+debian/files
+debian/python3-future
+debian/python3-future.debhelper.log
+debian/python3-future.postinst.debhelper
+debian/python3-future.prerm.debhelper
+debian/python3-future.substvars
+debian/python-future
+debian/python-future.debhelper.log
+debian/python-future.postinst.debhelper
+debian/python-future.prerm.debhelper
+debian/python-future.substvars
+debian/tmp
+.pybuild
+
