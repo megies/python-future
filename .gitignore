@@ -52,6 +52,9 @@ debian/python-future.prerm.debhelper
 debian/python-future.substvars
 debian/tmp
 debian/changelog
+debian/control
+debian/rules
+debian/python-future.install
 debian/python*future_*.deb
 debian/python*future_*.build
 debian/python*future_*.changes

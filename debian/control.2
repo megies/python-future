@@ -1,0 +1,28 @@
+Source: python-future
+Section: python
+Priority: optional
+Maintainer: Tobias Megies <megies@geophysik.uni-muenchen.de>
+Build-Depends: debhelper (>= 7),
+               python (>= 2.6)
+Standards-Version: 3.9.2
+X-Python-Version: >= 2.6
+
+Package: python-future
+Architecture: all
+Section: python
+Depends: ${misc:Depends}, ${python:Depends}
+Description: Easy, clean, reliable Python 2/3 compatibility
+ ``python-future`` is the missing compatibility layer between Python 2 and
+ Python 3. It allows you to use a single, clean Python 3.x-compatible
+ codebase to support both Python 2 and Python 3 with minimal overhead.
+ .
+ It provides ``future`` and ``past`` packages with backports and forward
+ ports of features from Python 3 and 2. It also comes with ``futurize`` and
+ ``pasteurize``, customized 2to3-based scripts that helps you to convert
+ either Py2 or Py3 code easily to support both Python 2 and 3 in a single
+ clean Py3-style codebase, module by module.
+ .
+ For more information visit http://python-future.org/.
+ .
+ This is the Python 2 version of the package.
+Homepage: http://python-future.org/
