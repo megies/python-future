@@ -1,3 +1,5 @@
+.PHONY: changelog clean
+
 build-2: clean build-deb-unsigned-2
 
 build-6: clean build-deb-unsigned-6
@@ -8,7 +10,7 @@ clean:
 prepare-2:
 	cp control.2 control
 	cp rules.2 rules
-	cp python-future.install.2 python-future.install
+	rm python-future.install -rf
 
 prepare-6:
 	cp control.6 control
