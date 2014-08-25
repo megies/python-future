@@ -1,6 +1,9 @@
-build-2: build-deb-unsigned-2
+build-2: clean build-deb-unsigned-2
 
-build-6: build-deb-unsigned-6
+build-6: clean build-deb-unsigned-6
+
+clean:
+	rm -rf changelog control rules python-future.install
 
 prepare-2:
 	cp control.2 control
@@ -23,10 +26,10 @@ build-deb-unsigned-6: changelog prepare-6
 	debuild -i -us -uc -b
 	mv ../../python-future_*.deb ../../python-future_*.build ../../python-future_*.changes ../../python3-future_*.deb .
 
-build-deb-signed-2: changelog prepare-2
-	debuild --no-tgz-check
-	mv ../../python-future_*.deb ../../python-future_*.build ../../python-future_*.changes .
-
-build-deb-signed-6: changelog prepare-6
-	debuild --no-tgz-check
-	mv ../../python-future_*.deb ../../python-future_*.build ../../python-future_*.changes ../../python3-future_*.deb .
+#build-deb-signed-2: changelog prepare-2
+#	debuild --no-tgz-check
+#	mv ../../python-future_*.deb ../../python-future_*.build ../../python-future_*.changes .
+#
+#build-deb-signed-6: changelog prepare-6
+#	debuild --no-tgz-check
+#	mv ../../python-future_*.deb ../../python-future_*.build ../../python-future_*.changes ../../python3-future_*.deb .
