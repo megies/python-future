@@ -1,59 +1,9 @@
 .. _forwards-conversion:
 
-Futurize: 2 to both
---------------------
+``futurize``: Py2 to Py2/3
+--------------------------
 
-For example, running ``futurize`` turns this Python 2 code:
-
-.. code-block:: python
-
-    import ConfigParser                 # Py2 module name
-
-    class Upper(object):
-        def __init__(self, iterable):
-            self._iter = iter(iterable)
-        def next(self):                 # Py2-style iterator interface
-            return next(self._iter).upper()
-        def __iter__(self):
-            return self
-
-    itr = Upper('hello')
-    print next(itr),
-    for letter in itr:
-        print letter,                   # Py2-style print statement
-
-into this code which runs on both Py2 and Py3:
-
-.. code-block:: python
-
-    from __future__ import print_function
-    from future import standard_library
-    standard_library.install_hooks()
-    from future.builtins import next
-    from future.builtins import object
-    import configparser                 # Py3-style import
-
-    class Upper(object):
-        def __init__(self, iterable):
-            self._iter = iter(iterable)
-        def __next__(self):             # Py3-style iterator interface
-            return next(self._iter).upper()
-        def __iter__(self):
-            return self
-
-    itr = Upper('hello')
-    print(next(itr), end=' ')           # Py3-style print function
-    for letter in itr:
-        print(letter, end=' ')
-
-
-To write out all the changes to your Python files that ``futurize`` suggests,
-use the ``-w`` flag.
-
-For complex projects, it is probably best to divide the porting into two stages.
-Stage 1 is for "safe" changes that modernize the code but do not break Python
-2.6 compatibility or introduce a depdendency on the ``future`` package. Stage 2
-is to complete the process.
+.. include:: futurize_overview.rst
 
 
 .. _forwards-conversion-stage1:
@@ -74,9 +24,10 @@ the code. With luck, this will not introduce any bugs into the code, or will at
 least be trivial to fix. The changes are those that bring the Python code
 up-to-date without breaking Py2 compatibility. The resulting code will be
 modern Python 2.6-compatible code plus ``__future__`` imports from the
-following set::
+following set:
 
 .. code-block:: python
+
     from __future__ import absolute_import
     from __future__ import division
     from __future__ import print_function
@@ -154,19 +105,18 @@ The complete set of fixers applied by ``futurize --stage1`` is:
     libfuturize.fixes.fix_next_call
     libfuturize.fixes.fix_print_with_import
     libfuturize.fixes.fix_raise
-    libfuturize.fixes.fix_order___future__imports
 
 
-Not applied:
+The following fixers from ``lib2to3`` are not applied:
 
 .. code-block:: python
 
     lib2to3.fixes.fix_import
 
-The ``fix_absolute_import`` fixer in`` libfuturize.fixes`` is applied instead of
-this. The new fixer both makes implicit relative imports explicit and
-adds the declaration ``from __future__ import absolute_import`` at the top
-of each relevant module.
+The ``fix_absolute_import`` fixer in ``libfuturize.fixes`` is applied instead of
+``lib2to3.fixes.fix_import``. The new fixer both makes implicit relative
+imports explicit and adds the declaration ``from __future__ import
+absolute_import`` at the top of each relevant module.
 
 .. code-block:: python
 
@@ -208,14 +158,14 @@ This converts ``set([1, 2, 3]``) to ``{1, 2, 3}``, breaking Python 2.6 support.
     lib2to3.fixes.fix_ws_comma
 
 This performs cosmetic changes. This is not applied by default because it
-does not serve improve Python 2/3 compatibility. (In some cases it may
+does not serve to improve Python 2/3 compatibility. (In some cases it may
 also reduce readability: see issue #58.)
 
 
 
 .. _forwards-conversion-stage2:
 
-Stage 2: Py3-style code with ``future`` wrappers for Py2
+Stage 2: Py3-style code with wrappers for Py2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Run stage 2 of the conversion process with::
@@ -242,8 +192,8 @@ For example::
 
 would be converted by Stage 2 to this code::
 
-    from future.builtins import input
-    from future.builtins import str
+    from builtins import input
+    from builtins import str
     from future.utils import iteritems, python_2_unicode_compatible
 
     name = input('What is your name?\n')
@@ -260,7 +210,7 @@ Stage 2 also renames standard-library imports to their Py3 names and adds these
 two lines::
 
     from future import standard_library
-    standard_library.install_hooks()
+    standard_library.install_aliases()
 
 For example::
 
@@ -269,10 +219,10 @@ For example::
 becomes::
 
     from future import standard_library
-    standard_library.install_hooks()
+    standard_library.install_aliases()
     import configparser
 
-A complete list of fixers applied in Stage 2 is::
+The complete list of fixers applied in Stage 2 is::
 
     lib2to3.fixes.fix_basestring
     lib2to3.fixes.fix_dict
@@ -298,7 +248,6 @@ A complete list of fixers applied in Stage 2 is::
     libfuturize.fixes.fix_metaclass
     libpasteurize.fixes.fix_newstyle
     libfuturize.fixes.fix_object
-    libfuturize.fixes.fix_order___future__imports
     libfuturize.fixes.fix_unicode_keep_u
     libfuturize.fixes.fix_xrange_with_import
 
@@ -322,8 +271,7 @@ Not applied::
 
 Fixes applied with the ``futurize --conservative`` option::
 
-    libfuturize.fixes.fix_division_safe
-    (instead of libfuturize.fixes.fix_division).
+    libfuturize.fixes.fix_division_safe    # instead of libfuturize.fixes.fix_division.
 
 
 
@@ -342,7 +290,7 @@ that these types behave similarly on Python 2 as on Python 3, also wrap
 byte-strings or text in the ``bytes`` and ``str`` types from ``future``. For
 example::
 
-    from future.builtins import bytes, str
+    from builtins import bytes, str
     b = bytes(b'\x00ABCD')
     s = str(u'This is normal text')
 

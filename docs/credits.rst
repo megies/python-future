@@ -8,7 +8,7 @@ Licence
 The software is distributed under an MIT licence. The text is as follows
 (from ``LICENSE.txt``)::
 
-    Copyright (c) 2013-2014 Python Charmers Pty Ltd, Australia
+    Copyright (c) 2013-2015 Python Charmers Pty Ltd, Australia
     
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -51,19 +51,25 @@ Development Lead
 Patches
 ~~~~~~~
 
+- Jacob Beck
 - Denis Cornehl
 - Nicolas Delaby
 - Corey Farwell
 - Eric Firing
+- Alexey Kotlyarov
 - Lion Krischer
 - Marcin Kuzminski
 - Joshua Landau
 - German Larrain
 - Chris Lasher
 - Elliott Sales de Andrade
+- Tim Shaffer
+- Daniel Szoska
 - Jeff Tratner
+- Brad Walker
 - Mystic-Mirage (GitHub)
 - str4d (GitHub)
+- 9seconds (GitHub)
 
 Suggestions and Feedback
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -71,6 +77,7 @@ Suggestions and Feedback
 - Chris Adams
 - Martijn Faassen
 - Lion Krischer
+- Danielle Madeley
 - wluebbe (GitHub)
 
 
@@ -92,8 +99,8 @@ Other Credits
 - The ``raise_`` and ``raise_with_traceback`` functions were contributed by
   Jeff Tratner.
 
-- Documentation is generated with ``sphinx`` using the ``sphinx-bootstrap``
-  theme.
+- Documentation is generated with `Sphinx <http://sphinx.pocoo.org>`_ using the
+  ``sphinx-bootstrap`` theme.
 
 - ``past.translation`` is inspired by and borrows some code from Sanjay Vinip's
   ``uprefix`` module.

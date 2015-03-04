@@ -7,13 +7,13 @@ Overview: Easy, clean, reliable Python 2/3 compatibility
 Python 3. It allows you to use a single, clean Python 3.x-compatible
 codebase to support both Python 2 and Python 3 with minimal overhead.
 
-It provides ``future`` and ``past`` packages with backports and forward ports of
-features from Python 3 and 2. It also comes with ``futurize`` and
-``pasteurize``, customized 2to3-based scripts that helps you to convert either
-Py2 or Py3 code easily to support both Python 2 and 3 in a single clean
-Py3-style codebase, module by module.
+It provides ``future`` and ``past`` packages with backports and forward
+ports of features from Python 3 and 2. It also comes with ``futurize`` and
+``pasteurize``, customized 2to3-based scripts that helps you to convert
+either Py2 or Py3 code easily to support both Python 2 and 3 in a single
+clean Py3-style codebase, module by module.
 
-Notable projects that use ``python-future`` for Python 3/2 compatibility
+Notable projects that use ``python-future`` for Python 2/3 compatibility
 are `Mezzanine <http://mezzanine.jupo.org/>`_ and `ObsPy
 <http://obspy.org>`_.
 
@@ -25,22 +25,24 @@ Features
 .. image:: https://travis-ci.org/PythonCharmers/python-future.svg?branch=master
        :target: https://travis-ci.org/PythonCharmers/python-future
 
--   ``future.builtins`` package provides backports and remappings for 20
-    builtins with different semantics on Py3 versus Py2
+-   ``future.builtins`` package (also available as ``builtins`` on Py2) provides
+    backports and remappings for 20 builtins with different semantics on Py3
+    versus Py2
 
--   ``future.standard_library``, in conjunction with ``future.moves``, provides
-    support for importing standard library modules under their Python 3 names
+-   support for directly importing 30 standard library modules under
+    their Python 3 names on Py2
 
--   ``future.backports`` package provides backports from the Py3.3
-    standard library
+-   support for importing the other 14 refactored standard library modules
+    under their Py3 names relatively cleanly via
+    ``future.standard_library`` and ``future.moves``
 
 -   ``past.builtins`` package provides forward-ports of 19 Python 2 types and
     builtin functions. These can aid with per-module code migrations.
 
 -   ``past.translation`` package supports transparent translation of Python 2
-    modules to Python 3 upon import. [This feature is currently in alpha.] 
+    modules to Python 3 upon import. [This feature is currently in alpha.]
 
--   850+ unit tests, including many from the Py3.3 source tree.
+-   920+ unit tests, including many from the Py3.3 source tree.
 
 -   ``futurize`` and ``pasteurize`` scripts based on ``2to3`` and parts of
     ``3to2`` and ``python-modernize``, for automatic conversion from either Py2
@@ -65,8 +67,8 @@ these imports as it does on Python 3.3+:
 .. code-block:: python
     
     from __future__ import absolute_import, division, print_function
-    from future.builtins import (bytes, str, open, super, range,
-                                 zip, round, input, int, pow, object)
+    from builtins import (bytes, str, open, super, range,
+                          zip, round, input, int, pow, object)
 
     # Backported Py3 bytes object
     b = bytes(b'ABCD')
@@ -120,7 +122,7 @@ these imports as it does on Python 3.3+:
     assert isinstance('blah', str)       # only if unicode_literals is in effect
 
     # Py3-style iterators written as new-style classes (subclasses of
-    # future.builtins.object) are automatically backward compatible with Py2:
+    # future.types.newobject) are automatically backward compatible with Py2:
     class Upper(object):
         def __init__(self, iterable):
             self._iter = iter(iterable)
@@ -131,27 +133,36 @@ these imports as it does on Python 3.3+:
     assert list(Upper('hello')) == list('HELLO')
 
 
-There is also support for renamed standard library modules in the form of import
-hooks. The context-manager form works like this:
+There is also support for renamed standard library modules. The recommended
+interface works like this:
 
 .. code-block:: python
 
-    from future import standard_library
+    # Many Py3 module names are supported directly on both Py2.x and 3.x:
+    from http.client import HttpConnection
+    import html.parser
+    import queue
+    import xmlrpc.client
 
-    with standard_library.hooks():
-        from http.client import HttpConnection
-        from itertools import filterfalse
-        import html.parser
-        import queue
-        from urllib.request import urlopen
+    # Refactored modules with clashing names on Py2 and Py3 are supported
+    # as follows:
+    from future import standard_library
+    standard_library.install_aliases()
+
+    # Then, for example:
+    from itertools import filterfalse, zip_longest
+    from urllib.request import urlopen
+    from collections import Counter, OrderedDict   # backported to Py2.6
+    from collections import UserDict, UserList, UserString
+    from subprocess import getoutput, getstatusoutput
 
 
 Automatic conversion to Py2/3-compatible code
 ---------------------------------------------
 
-``future`` comes with two scripts called ``futurize`` and
+``python-future`` comes with two scripts called ``futurize`` and
 ``pasteurize`` to aid in making Python 2 code or Python 3 code compatible with
-both platforms (Py2&3). It is based on 2to3 and uses fixers from ``lib2to3``,
+both platforms (Py2/3). It is based on 2to3 and uses fixers from ``lib2to3``,
 ``lib3to2``, and ``python-modernize``, as well as custom fixers.
 
 ``futurize`` passes Python 2 code through all the appropriate fixers to turn it
@@ -190,9 +201,9 @@ into this code which runs on both Py2 and Py3:
 .. code-block:: python
     
     from __future__ import print_function
-    from future.builtins import input
     from future import standard_library
-    standard_library.install_hooks()
+    standard_library.install_aliases()
+    from builtins import input
     import queue
     from urllib.request import urlopen
     
@@ -205,11 +216,7 @@ into this code which runs on both Py2 and Py3:
     name = input()
     greet(name)
 
-
-For complex projects, it may be better to divide the porting into two stages.
-``futurize`` supports a ``--stage1`` flag for safe changes that modernize the
-code but do not break Python 2.6 compatibility or introduce a depdendency on the
-``future`` package. Calling ``futurize --stage2`` then completes the process.
+See :ref:`forwards-conversion` and :ref:`backwards-conversion` for more details.
 
 
 Automatic translation
@@ -250,13 +257,14 @@ properly to a Python 2/3 compatible codebase using a tool like
 Note: the translation feature is still in alpha and needs more testing and
 development.
 
+For more info, see :ref:`translation`.
 
 Licensing
 ---------
 
 :Author:  Ed Schofield
 
-:Copyright: 2013-2014 Python Charmers Pty Ltd, Australia.
+:Copyright: 2013-2015 Python Charmers Pty Ltd, Australia.
 
 :Sponsor: Python Charmers Pty Ltd, Australia, and Python Charmers Pte
           Ltd, Singapore. http://pythoncharmers.com
@@ -269,7 +277,7 @@ Licensing
 Next steps
 ----------
 
-If you are new to ``python-future``, check out the `Quickstart Guide
+If you are new to Python-Future, check out the `Quickstart Guide
 <http://python-future.org/quickstart.html>`_.
 
 For an update on changes in the latest version, see the `What's New

@@ -29,7 +29,13 @@ import sphinx_bootstrap_theme
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'sphinx.ext.ifconfig', 'sphinx.ext.viewcode']
+extensions = ['sphinx.ext.autodoc',
+              'sphinx.ext.intersphinx',
+              'sphinx.ext.ifconfig',
+              'sphinx.ext.viewcode',
+              # 'sphinxcontrib.napoleon'    # see https://readthedocs.org/projects/sphinxcontrib-napoleon/
+              # 'sphinx.ext.napoleon'       # use this in Sphinx 1.3+
+             ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -45,7 +51,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Python-Future'
-copyright = u'2013-2014, Python Charmers Pty Ltd, Australia'
+copyright = u'2013-2015, Python Charmers Pty Ltd, Australia'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -103,10 +109,10 @@ html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 # documentation.
 html_theme_options = {
     # Navigation bar title. (Default: ``project`` value)
-    'navbar_title': "Python-Future",
+    #'navbar_title': "Python-Future",
 
     # Tab name for entire site. (Default: "Site")
-    'navbar_site_name': "All pages",
+    'navbar_site_name': "Contents",
 
     # A list of tuples containing pages or urls to link to.
     # Valid tuples should be in the following forms:
@@ -117,6 +123,7 @@ html_theme_options = {
     # an arbitrary url.
     'navbar_links': [
         ("Overview", "overview"),
+        ("Cheat Sheet", "compatible_idioms.html", True),
         ("FAQ", "faq.html", True),
         # ("Link", "http://example.com", True),
     ],
@@ -129,7 +136,7 @@ html_theme_options = {
 
     # Global TOC depth for "site" navbar tab. (Default: 1)
     # Switching to -1 shows all levels.
-    'globaltoc_depth': 2,
+    'globaltoc_depth': 3,
 
     # Include hidden TOCs in Site navbar?
     #
@@ -176,12 +183,12 @@ html_theme_options = {
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-html_logo = '_static/python-future-logo.png'
+html_logo = '_static/python-future-logo-textless-transparent.png'
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-#html_favicon = None
+html_favicon = "_static/python-future-icon-32.ico"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -198,9 +205,12 @@ html_static_path = ['_static']
 
 # Custom sidebar templates, maps document names to template names.
 html_sidebars = {
-    'index':    ['sidebarlogo.html', 'sidebarintro.html',
-                 'sourcelink.html', 'searchbox.html'],
-    '**':       ['sidebarlogo.html', 'localtoc.html', 'relations.html', 'sourcelink.html', 'searchbox.html']
+    '**':    ['sidebarintro.html',
+              'sidebartoc.html',
+              # 'sourcelink.html',
+              #'searchbox.html',
+             ]
+    # '**':       ['sidebarlogo.html', 'localtoc.html', 'relations.html', 'sourcelink.html', 'searchbox.html']
 }
 
 # Additional templates that should be rendered to pages, maps page names to
@@ -217,10 +227,10 @@ html_sidebars = {
 #html_split_index = False
 
 # If true, links to the reST sources are added to the pages.
-#html_show_sourcelink = True
+html_show_sourcelink = False
 
 # If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
-#html_show_sphinx = True
+html_show_sphinx = False
 
 # If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
 #html_show_copyright = True
@@ -304,7 +314,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'Python-Future', u'Python-Future Documentation',
-   u'Python Charmers', 'Python-Future', 'Easy support for Python 2 and 3',
+   u'Python Charmers', 'Python-Future', 'Easy compatibility for Python 2 and 3',
    'Miscellaneous'),
 ]
 

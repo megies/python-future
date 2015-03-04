@@ -1,6 +1,6 @@
 .. _futurize_cheatsheet:
 
-``futurize`` cheat-sheet: automatic conversion from Py2 to Py2&3
+``futurize`` quick-start: automatic conversion from Py2 to Py2/3
 ================================================================
 
 Instructions and notes on converting code from supporting only Python 2 to
@@ -88,12 +88,15 @@ changes to all Python source files recursively with::
 To apply the changes, add the ``-w`` argument.
 
 This stage makes further conversions needed to support both Python 2 and 3.
-These will likely require imports from ``future``, such as::
+These will likely require imports from ``future`` on Py2 (and sometimes on Py3),
+such as::
 
     from future import standard_library
-    standard_library.install_hooks()
-    from future.builtins import bytes
-    from future.builtins import open
+    standard_library.install_aliases()
+    # ...
+    from builtins import bytes
+    from builtins import open
+    from future.utils import with_metaclass
 
 Optionally, you can use the ``--unicode-literals`` flag to add this import to
 the top of each module::
@@ -115,7 +118,7 @@ Python 3 semantics on Python 2, invoke it like this::
 
 **2d**. Now run your tests on Python 2 and notice the errors. Add wrappers from
 ``future`` to re-enable Python 2 compatibility. See the
-:ref:`compatible-idioms` cheat sheet or :ref:`what-else` for more info.
+:ref:`compatible-idioms` cheat sheet and :ref:`what-else` for more info.
 
 After each change, re-run the tests on Py3 and Py2 to ensure they pass on both.
 

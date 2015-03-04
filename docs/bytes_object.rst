@@ -11,10 +11,10 @@ Python 2's :class:`str`, rather than a true implementation of the Python
 
 :mod:`future` contains a backport of the :mod:`bytes` object from Python 3
 which passes most of the Python 3 tests for :mod:`bytes`. (See
-``future/tests/test_bytes.py`` in the source tree.) You can use it as
+``tests/test_future/test_bytes.py`` in the source tree.) You can use it as
 follows::
 
-    >>> from future.builtins import bytes
+    >>> from builtins import bytes
     >>> b = bytes(b'ABCD')
 
 On Py3, this is simply the builtin :class:`bytes` object. On Py2, this
@@ -47,13 +47,13 @@ behaviours to Python 3's :class:`bytes`::
     b = bytes(b'ABCD')
     assert list(b) == [65, 66, 67, 68]
     assert repr(b) == "b'ABCD'"
-    assert b.split(b'b') == [b'A', b'CD']
+    assert b.split(b'B') == [b'A', b'CD']
 
 Currently the easiest way to ensure identical behaviour of byte-strings
 in a Py2/3 codebase is to wrap all byte-string literals ``b'...'`` in a
 :func:`~bytes` call as follows::
     
-    from future.builtins import bytes
+    from builtins import bytes
     
     # ...
 

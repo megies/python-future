@@ -9,6 +9,7 @@ recursive-include docs README
 recursive-include docs *.conf
 recursive-include docs *.css_t
 recursive-include docs *.html
+recursive-include docs *.ico
 recursive-include docs *.inc
 recursive-include docs *.ipynb
 recursive-include docs *.png
@@ -18,9 +19,10 @@ recursive-include docs *.sh
 recursive-include docs *.tiff
 recursive-include docs *.txt
 recursive-include docs Makefile
-recursive-include future *.au
-recursive-include future *.gif
-recursive-include future *.pem
-recursive-include future *.py
-recursive-include future *.txt
+recursive-include src *.py
+recursive-include src *.pem
+recursive-include tests *.au
+recursive-include tests *.gif
+recursive-include tests *.py
+recursive-include tests *.txt
 

@@ -4,8 +4,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   overview
    whatsnew
+   overview
    quickstart
    compatible_idioms
    imports
@@ -13,6 +13,7 @@ Contents:
    what_else
    automatic_conversion
    futurize_cheatsheet
+   translation
    stdlib_incompatibilities
    faq
    changelog
